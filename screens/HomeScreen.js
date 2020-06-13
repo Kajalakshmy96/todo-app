@@ -71,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
             {
               tasksList.map((task) => (
                 <Card>
-                  <CardItem header button onPress={() => alert("This is Card Header")}>
+                  <CardItem header button onPress={() => navigation.navigate("ViewTask", {id:task.id})}>
                     <Text>{task.title}</Text>
                   </CardItem>
                   {/* <CardItem button onPress={() => alert("This is Card Body")}>
