@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text, Button, Dimensions, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, Dimensions, StyleSheet, ScrollView } from 'react-native';
 import { PieChart } from 'react-native-chart-kit'
 
 const SummaryScreen = ({ navigation }) => {
   const [taskSummary, setTaskSummary] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   const chartConfig = {
     backgroundColor: '#000000',
@@ -46,22 +47,33 @@ const SummaryScreen = ({ navigation }) => {
         //   { name: 'New York', population: 8538000, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
         //   { name: 'Moscow', population: 11920000, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
         // ]
-        setTaskSummary(response.result);
+        var taskSummary = [];
+        response.result.map((summary) => (
+        taskSummary = [
+            { name: 'New Tasks', population: 21500000, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Completed', population: 2800000, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Partially', population: 527612, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Progress', population: 8538000, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Failed', population: 11920000, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
+          ]
+        ));
+        setTaskSummary(taskSummary);
         setIsLoading(false);
       })
       .catch(error => alert(error));
   }, []);
 
   return (
+    // <Text>Test</Text>
     <ScrollView
       key={Math.random()}
       style={{
         backgroundColor: chartConfig.backgroundColor
       }}
     >
-      <Text style={labelStyle}>Bezier Line Chart</Text>
+      <Text >Bezier Line Chart</Text>
       <PieChart
-        data={pieChartData}
+        data={taskSummary}
         height={220}
         width={Dimensions.get('window').width}
         chartConfig={chartConfig}
