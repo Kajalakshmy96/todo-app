@@ -78,6 +78,7 @@ const HomeStackScreen = ({ navigation }) => (
     headerTintColor: '#fff',
     headerTitleStyle: {
       fontWeight: 'bold'
+      
     }
   }}>
     <HomeStack.Screen name="Home" component={HomeScreen} options={{

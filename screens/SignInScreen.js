@@ -90,11 +90,7 @@ const SignInScreen = ({navigation}) => {
         }
     }
 
-    const loginHandle = (userName, password) => {
-
-        const foundUser = Users.filter( item => {
-            return userName == item.username && password == item.password;
-        } );
+    const loginHandle = (userName, password) => {        
 
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
@@ -102,6 +98,10 @@ const SignInScreen = ({navigation}) => {
             ]);
             return;
         }
+
+        const foundUser = Users.filter( item => {
+            return userName == item.username && password == item.password;
+        } );
 
         if ( foundUser.length == 0 ) {
             Alert.alert('Invalid User!', 'Username or password is incorrect.', [
