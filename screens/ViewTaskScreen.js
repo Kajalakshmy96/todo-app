@@ -35,6 +35,20 @@ const ViewTaskScreen = (props) => {
       .catch(error => alert(error));
   }, []);
 
+  const getTaskState = (state) => {
+    if (state == 'N') {
+      return "New";
+    } else if (state == 'C') {
+      return "Completed";
+    } else if (state == 'P') {
+      return "Partially Completed";
+    } else if (state == 'O') {
+      return "Progress";
+    } else if (state == 'F') {
+      return "Failed";
+    }
+  }
+
   return (
     <SafeAreaView >
       <ScrollView >
@@ -52,6 +66,9 @@ const ViewTaskScreen = (props) => {
               </ListItem>
               <ListItem>
                 <Text>Reminder - {task.remind ? <Text>On</Text> : <Text>Off</Text>} </Text>
+              </ListItem>
+              <ListItem>
+                <Text>Status - {getTaskState(task.state)}</Text>
               </ListItem>
             </List>
 

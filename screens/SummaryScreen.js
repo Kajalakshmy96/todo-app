@@ -3,9 +3,9 @@ import { View, Text, Button, Dimensions, StyleSheet, ScrollView } from 'react-na
 import { PieChart } from 'react-native-chart-kit'
 
 const SummaryScreen = ({ navigation }) => {
-  const [taskSummary, setTaskSummary] = useState([]);
+  const [pieChartData, setPieChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const chartConfig = {
     backgroundColor: '#000000',
     backgroundGradientFrom: '#1E2923',
@@ -15,7 +15,7 @@ const SummaryScreen = ({ navigation }) => {
       borderRadius: 16
     }
   };
-  
+
   const graphStyle = {
     marginVertical: 8,
     ...chartConfig.style
@@ -38,7 +38,7 @@ const SummaryScreen = ({ navigation }) => {
     )
       .then(res => res.json())
       .then(response => {
-        console.log(response);
+        // console.log(response);
         //Sample Pie Chart Data
         // const pieChartData = [
         //   { name: 'Seoul', population: 21500000, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
@@ -46,18 +46,20 @@ const SummaryScreen = ({ navigation }) => {
         //   { name: 'Beijing', population: 527612, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
         //   { name: 'New York', population: 8538000, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
         //   { name: 'Moscow', population: 11920000, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
-        // ]
-        var taskSummary = [];
-        response.result.map((summary) => (
-        taskSummary = [
-            { name: 'New Tasks', population: 21500000, color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-            { name: 'Completed', population: 2800000, color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-            { name: 'Partially', population: 527612, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-            { name: 'Progress', population: 8538000, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-            { name: 'Failed', population: 11920000, color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
-          ]
-        ));
-        setTaskSummary(taskSummary);
+        // ]  
+        var tmpPieChartData = [];
+        response.result.map((summary) => {
+          console.log(summary);
+          tmpPieChartData = [
+            // { name: 'New Tasks', population: parseInt(summary.new), color: 'rgba(131, 167, 234, 1)', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Completed', population: parseInt(summary.completed), color: '#F00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Partially Completed', population: parseInt(summary.partially), color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Progress', population: parseInt(summary.progress), color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+            { name: 'Failed', population: parseInt(summary.new), color: 'rgb(0, 0, 255)', legendFontColor: '#7F7F7F', legendFontSize: 15 }
+          ];
+          console.log(tmpPieChartData);
+        });
+        setPieChartData(tmpPieChartData);
         setIsLoading(false);
       })
       .catch(error => alert(error));
@@ -73,7 +75,7 @@ const SummaryScreen = ({ navigation }) => {
     >
       <Text >Bezier Line Chart</Text>
       <PieChart
-        data={taskSummary}
+        data={pieChartData}
         height={220}
         width={Dimensions.get('window').width}
         chartConfig={chartConfig}

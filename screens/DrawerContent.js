@@ -98,8 +98,8 @@ export function DrawerContent(props) {
                                     size={size}
                                 />
                             )}
-                            label="View Task"
-                            onPress={() => { props.navigation.navigate('ViewTask') }}
+                            label="Create Task"
+                            onPress={() => { props.navigation.navigate('CreateTask') }}
                         />
                         {/* <DrawerItem 
                             icon={({color, size}) => (
