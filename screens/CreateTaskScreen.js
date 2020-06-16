@@ -94,13 +94,13 @@ const CreateTaskScreen = (props) => {
             <Input
               type='date'
               label='Date'
-              placeholder='Task Date'
+              placeholder='YYYY-MM-DD'
               onChangeText={(value) => setDescription(value)}
             />
             <Input
               type='time'
               label='Date'
-              placeholder='Task Time'
+              placeholder='HH:MM:SS'
               onChangeText={(value) => setDescription(value)}
             />
             <CheckBox
