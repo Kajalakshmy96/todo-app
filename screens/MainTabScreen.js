@@ -11,6 +11,7 @@ import ExploreScreen from './ExploreScreen';
 import ProfileScreen from './ProfileScreen';
 import ViewTaskScreen from './ViewTaskScreen';
 import CreateTaskScreen from './CreateTaskScreen';
+import UpdateTaskScreen from './UpdateTaskScreen';
 
 const HomeStack = createStackNavigator();
 const DetailsStack = createStackNavigator();
@@ -96,6 +97,12 @@ const HomeStackScreen = ({ navigation }) => (
     }} />
     <HomeStack.Screen name="CreateTask" component={CreateTaskScreen} options={{
       title: 'Create Task',
+      headerLeft: () => (
+        <Icon.Button name="ios-arrow-back" size={25} backgroundColor="#009387" onPress={() => navigation.goBack()}></Icon.Button>
+      )
+    }} />
+    <HomeStack.Screen name="UpdateTask" component={UpdateTaskScreen} options={{
+      title: 'Update Task',
       headerLeft: () => (
         <Icon.Button name="ios-arrow-back" size={25} backgroundColor="#009387" onPress={() => navigation.goBack()}></Icon.Button>
       )
