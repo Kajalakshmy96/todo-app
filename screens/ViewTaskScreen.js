@@ -4,6 +4,7 @@ import { useTheme } from '@react-navigation/native';
 //import { Card } from 'react-native-paper';
 import { Input, CheckBox, Button } from 'react-native-elements';
 import { Container, Header, Content, Card, CardItem, List, ListItem, Title, Text, Body, Left, Right, Icon } from 'native-base';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const ViewTaskScreen = (props) => {
 
@@ -52,6 +53,7 @@ const ViewTaskScreen = (props) => {
   }
 
   const updateState = (state) => {
+    setIsLoading(true);
     fetch(`https://pure-tundra-14665.herokuapp.com/api/v1/task/state/` + props.route.params.id,
       {
         method: "post",
@@ -67,6 +69,7 @@ const ViewTaskScreen = (props) => {
     )
       .then(res => res.json())
       .then(response => {
+        setIsLoading(false);
         console.log(response);
         if (response.code == 200) {
           setTaskState(state);
@@ -75,8 +78,9 @@ const ViewTaskScreen = (props) => {
       })
       .catch(error => alert(error));
   }
-  
+
   const deleteTask = () => {
+    setIsLoading(true);
     fetch(`https://pure-tundra-14665.herokuapp.com/api/v1/task/delete/` + props.route.params.id,
       {
         method: "post",
@@ -89,6 +93,7 @@ const ViewTaskScreen = (props) => {
     )
       .then(res => res.json())
       .then(response => {
+        setIsLoading(false);
         console.log(response);
         if (response.code == 200) {
           //setTaskState(state);          
@@ -103,6 +108,11 @@ const ViewTaskScreen = (props) => {
       <ScrollView >
         <Container>
           <Content>
+            <Spinner
+              visible={isLoading}
+              textContent={'Loading...'}
+              textStyle={styles.spinnerTextStyle}
+            />
             <List>
               <ListItem>
                 <Text>{props.id} {task.title}</Text>
@@ -136,9 +146,9 @@ const ViewTaskScreen = (props) => {
                 backgroundColor: 'red',
                 width: '60%',
                 marginLeft: '20%',
-                marginBottom:10
+                marginBottom: 10
               }}
-            onPress={() => deleteTask()}
+              onPress={() => deleteTask()}
             />
             <Button
               title="Update"
@@ -147,8 +157,8 @@ const ViewTaskScreen = (props) => {
                 width: '60%',
                 marginLeft: '20%'
               }}
-            onPress={() => props.navigation.navigate("UpdateTask", {id:props.route.params.id})}
-            
+              onPress={() => props.navigation.navigate("UpdateTask", { id: props.route.params.id })}
+
             />
           </Content>
         </Container>
@@ -164,6 +174,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
   button: {
 

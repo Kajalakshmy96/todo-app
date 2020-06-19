@@ -6,6 +6,7 @@ import { useTheme } from '@react-navigation/native';
 //import { Card } from 'react-native-paper';
 import { Container, Content } from 'native-base';
 import moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const CreateTaskScreen = (props) => {
@@ -13,11 +14,11 @@ const CreateTaskScreen = (props) => {
   const { colors } = useTheme();
   const theme = useTheme();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(0);
-  const [remind, setRemind] = useState(1);
+  const [remind, setRemind] = useState(true);
   const [taskDate, setTaskDate] = useState(moment().utcOffset('+05:30').format('YYYY-MM-DD'));
   const [taskTime, setTaskTime] = useState("12:00:00");
 
@@ -43,6 +44,7 @@ const CreateTaskScreen = (props) => {
   // }, []);
 
   function createTask() {
+    setIsLoading(true);
     fetch(`https://pure-tundra-14665.herokuapp.com/api/v1/task/create`,
       {
         method: "post",
@@ -63,6 +65,7 @@ const CreateTaskScreen = (props) => {
     )
       .then(res => res.json())
       .then(response => {
+        setIsLoading(false);
         console.log(response);
         if (response.code == 200) {
           props.navigation.navigate("Home");
@@ -76,6 +79,11 @@ const CreateTaskScreen = (props) => {
       <ScrollView>
         <Container>
           <Content>
+            <Spinner
+              visible={isLoading}
+              textContent={'Creating task...'}
+              textStyle={styles.spinnerTextStyle}
+            />
             <Picker
               selectedValue={category}
               onValueChange={(value) => setCategory(value)}>
@@ -109,7 +117,7 @@ const CreateTaskScreen = (props) => {
             <CheckBox
               title='Remind'
               checked={remind}
-              onPress={(remind) => setRemind(!remind)}
+              onPress={() => setRemind(!remind)}
             />
             <Button
               buttonStyle={{
@@ -134,5 +142,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
 });

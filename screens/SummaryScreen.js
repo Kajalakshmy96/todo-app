@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Dimensions, StyleSheet, ScrollView } from 'react-native';
-import { PieChart } from 'react-native-chart-kit'
+import { PieChart } from 'react-native-chart-kit';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const SummaryScreen = ({ navigation }) => {
   const [pieChartData, setPieChartData] = useState([]);
@@ -22,6 +23,7 @@ const SummaryScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `https://pure-tundra-14665.herokuapp.com/api/v1/summary`,
       {
@@ -38,6 +40,7 @@ const SummaryScreen = ({ navigation }) => {
     )
       .then(res => res.json())
       .then(response => {
+        setIsLoading(false);
         // console.log(response);
         //Sample Pie Chart Data
         // const pieChartData = [
@@ -74,6 +77,11 @@ const SummaryScreen = ({ navigation }) => {
       }}
     >
       {/* <Text >Tasks Summay</Text> */}
+      <Spinner
+        visible={isLoading}
+        textContent={'Loading summary...'}
+        textStyle={styles.spinnerTextStyle}
+      />
       <PieChart
         data={pieChartData}
         height={220}
@@ -93,5 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
 });

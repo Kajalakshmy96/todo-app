@@ -28,7 +28,7 @@ const MainTabScreen = () => (
       component={HomeStackScreen}
       options={{
         tabBarLabel: 'Home',
-        tabBarColor: '#009387',
+        // tabBarColor: '#009387',
         tabBarIcon: ({ color }) => (
           <Icon name="ios-home" color={color} size={26} />
         ),
@@ -39,29 +39,29 @@ const MainTabScreen = () => (
       component={SummaryStackScreen}
       options={{
         tabBarLabel: 'Summary',
-        tabBarColor: '#1f65ff',
+        // tabBarColor: '#009387',
         tabBarIcon: ({ color }) => (
           <Icon name="ios-stats" color={color} size={26} />
         ),
       }}
     />
-    <Tab.Screen
+    {/* <Tab.Screen
       name="Profile"
       component={ProfileScreen}
       options={{
         tabBarLabel: 'Profile',
-        tabBarColor: '#694fad',
+        tabBarColor: '#009387',
         tabBarIcon: ({ color }) => (
           <Icon name="ios-person" color={color} size={26} />
         ),
       }}
     />
-    {/* <Tab.Screen
+    <Tab.Screen
         name="Explore"
         component={ExploreScreen}
         options={{
           tabBarLabel: 'Explore',
-          tabBarColor: '#d02860',
+          tabBarColor: '#009387',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-aperture" color={color} size={26} />
           ),
@@ -113,7 +113,7 @@ const HomeStackScreen = ({ navigation }) => (
 const SummaryStackScreen = ({ navigation }) => (
   <DetailsStack.Navigator screenOptions={{
     headerStyle: {
-      backgroundColor: '#1f65ff',
+      backgroundColor: '#009387',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -122,7 +122,7 @@ const SummaryStackScreen = ({ navigation }) => (
   }}>
     <DetailsStack.Screen name="Details" component={SummaryScreen} options={{
       headerLeft: () => (
-        <Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
+        <Icon.Button name="ios-menu" size={25} backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
       )
     }} />
   </DetailsStack.Navigator>

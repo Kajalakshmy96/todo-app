@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import { Container, Header, Content, Card, CardItem, Text, Button, Body, Left, Right, Icon } from 'native-base';
 // import ActionButton from 'react-native-action-button';
 import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const HomeScreen = ({ navigation }) => {
 
@@ -16,6 +17,7 @@ const HomeScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `https://pure-tundra-14665.herokuapp.com/api/v1/task`,
       {
@@ -66,12 +68,16 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView >
       <ScrollView >
         <Container>
-          <Header />
+          <Spinner
+            visible={isLoading}
+            textContent={'Loading tasks...'}
+            textStyle={styles.spinnerTextStyle}
+          />          
           <Content padder>
             {
               tasksList.map((task) => (
-                <Card>
-                  <CardItem header button onPress={() => navigation.navigate("ViewTask", {id:task.id})}>
+                <Card key={task.id}>
+                  <CardItem header button onPress={() => navigation.navigate("ViewTask", { id: task.id })}>
                     <Text>{task.title}</Text>
                   </CardItem>
                   {/* <CardItem button onPress={() => alert("This is Card Body")}>
@@ -106,5 +112,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
 });

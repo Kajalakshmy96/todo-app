@@ -5,6 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import { Input, CheckBox, Button } from 'react-native-elements';
 import { Container, Header, Content, Card, CardItem, List, ListItem, Title, Text, Body, Left, Right, Icon } from 'native-base';
 import moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const UpdateTaskScreen = (props) => {
 
@@ -17,11 +18,12 @@ const UpdateTaskScreen = (props) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(0);
-  const [remind, setRemind] = useState(1);
+  const [remind, setRemind] = useState(true);
   const [taskDate, setTaskDate] = useState(moment().utcOffset('+05:30').format('YYYY-MM-DD'));
   const [taskTime, setTaskTime] = useState("12:00:00");
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `https://pure-tundra-14665.herokuapp.com/api/v1/task/` + props.route.params.id,
       {
@@ -35,12 +37,13 @@ const UpdateTaskScreen = (props) => {
     )
       .then(res => res.json())
       .then(response => {
+        setIsLoading(false);
         console.log(response);
         setTask(response.result);
         setTitle(response.result.title);
         setDescription(response.result.description);
         setCategory(response.result.category_id);
-        setRemind(response.result.remind);
+        setRemind(response.result.remind ? true : false);
         setTaskDate(response.result.date);
         setTaskTime(response.result.time);
         console.log(title);
@@ -48,9 +51,10 @@ const UpdateTaskScreen = (props) => {
       })
       .catch(error => alert(error));
   }, []);
-  
+
 
   const updateTask = () => {
+    setIsLoading(true);
     fetch(`https://pure-tundra-14665.herokuapp.com/api/v1/task/update/` + props.route.params.id,
       {
         method: "post",
@@ -71,10 +75,11 @@ const UpdateTaskScreen = (props) => {
     )
       .then(res => res.json())
       .then(response => {
+        setIsLoading(false);
         console.log(response);
-        if (response.code == 200) {          
+        if (response.code == 200) {
           console.log("Task successfully updated!");
-          props.navigation.navigate("ViewTask", {id:props.route.params.id})
+          props.navigation.navigate("ViewTask", { id: props.route.params.id })
         }
       })
       .catch(error => alert(error));
@@ -85,6 +90,11 @@ const UpdateTaskScreen = (props) => {
       <ScrollView>
         <Container>
           <Content>
+            <Spinner
+              visible={isLoading}
+              textContent={'Loading...'}
+              textStyle={styles.spinnerTextStyle}
+            />
             <Picker
               selectedValue={category}
               onValueChange={(value) => setCategory(value)}>
@@ -122,7 +132,7 @@ const UpdateTaskScreen = (props) => {
             <CheckBox
               title='Remind'
               checked={remind}
-              onPress={(remind) => setRemind(!remind)}
+              onPress={() => setRemind(!remind)}
             />
             <Button
               buttonStyle={{
@@ -136,7 +146,7 @@ const UpdateTaskScreen = (props) => {
           </Content>
         </Container>
       </ScrollView>
-    </SafeAreaView>    
+    </SafeAreaView>
   );
 };
 
@@ -147,6 +157,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
   button: {
 

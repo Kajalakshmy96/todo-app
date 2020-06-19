@@ -68,7 +68,7 @@ export function DrawerContent(props) {
                             label="Home"
                             onPress={() => { props.navigation.navigate('Home') }}
                         />
-                        <DrawerItem
+                        {/* <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
                                     name="account-outline"
@@ -78,7 +78,7 @@ export function DrawerContent(props) {
                             )}
                             label="Profile"
                             onPress={() => { props.navigation.navigate('Profile') }}
-                        />
+                        /> */}
                         <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
@@ -93,7 +93,7 @@ export function DrawerContent(props) {
                         <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
-                                    name="chart-bar"
+                                    name="plus"
                                     color={color}
                                     size={size}
                                 />
