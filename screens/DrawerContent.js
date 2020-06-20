@@ -34,13 +34,13 @@ export function DrawerContent(props) {
                         <View style={{ flexDirection: 'row', marginTop: 15 }}>
                             <Avatar.Image
                                 source={{
-                                    uri: 'https://api.adorable.io/avatars/50/abott@adorable.png'
+                                    uri: 'https://lh3.googleusercontent.com/dlv77afc-KDcwJyswY5ypzwAeqhTzZ4B2ADqTvMObMn0QYo4FKaFaGlvq64hheSHFcU=h300'
                                 }}
                                 size={50}
                             />
                             <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                                <Title style={styles.title}>John Doe</Title>
-                                <Caption style={styles.caption}>john@gmail.com</Caption>
+                                <Title style={styles.title}>ToDo</Title>
+                                <Caption style={styles.caption}>Achieve peace of mind!</Caption>
                             </View>
                         </View>
 

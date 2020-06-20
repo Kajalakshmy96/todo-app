@@ -18,7 +18,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { 
   Provider as PaperProvider, 
   DefaultTheme as PaperDefaultTheme,
-  DarkTheme as PaperDarkTheme 
+  DarkTheme as PaperDarkTheme, 
+  configureFonts
 } from 'react-native-paper';
 
 import { DrawerContent } from './screens/DrawerContent';
@@ -30,6 +31,8 @@ import { AuthContext } from './components/context';
 import RootStackScreen from './screens/RootStackScreen';
 
 import AsyncStorage from '@react-native-community/async-storage';
+
+import Configs from './model/config';
 
 const Drawer = createDrawerNavigator();
 
@@ -80,21 +83,21 @@ const App = () => {
       case 'LOGIN': 
         return {
           ...prevState,
-          userName: action.id,
+          // userName: action.id,
           userToken: action.token,
           isLoading: false,
         };
       case 'LOGOUT': 
         return {
           ...prevState,
-          userName: null,
+          // userName: null,
           userToken: null,
           isLoading: false,
         };
       case 'REGISTER': 
         return {
           ...prevState,
-          userName: action.id,
+          // userName: action.id,
           userToken: action.token,
           isLoading: false,
         };
@@ -107,16 +110,18 @@ const App = () => {
     signIn: async(foundUser) => {
       // setUserToken('fgkj');
       // setIsLoading(false);
-      const userToken = String(foundUser[0].userToken);
-      const userName = foundUser[0].username;
+      const userToken = String(foundUser.access_token);
+      // const userName = foundUser[0].username;
       
       try {
+        Configs.accessToken = userToken;
         await AsyncStorage.setItem('userToken', userToken);
       } catch(e) {
         console.log(e);
       }
       // console.log('user token: ', userToken);
-      dispatch({ type: 'LOGIN', id: userName, token: userToken });
+      // dispatch({ type: 'LOGIN', id: userName, token: userToken });
+      dispatch({ type: 'LOGIN', token: userToken });
     },
     signOut: async() => {
       // setUserToken(null);

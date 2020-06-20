@@ -93,7 +93,7 @@ const SignInScreen = ({ navigation }) => {
 
     const signup = () => {
         setIsLoading(true);
-        fetch(`https://pure-tundra-14665.herokuapp.com/api/auth/signup`,
+        fetch(Configs.apiUrl + `/api/auth/signup`,
             {
                 method: "post",
                 headers: {
